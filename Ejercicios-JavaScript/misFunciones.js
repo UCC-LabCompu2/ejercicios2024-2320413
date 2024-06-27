@@ -214,7 +214,7 @@ let dibujarCuadriculado = () => {
     ctx.stroke();
     ctx.closePath();
     
-    let numX = -20;
+    let numX = -25;
     ctx.font = "Arial";
     ctx.fillStyle = "red";
     for(let i = 0; i < anchoMax;){
@@ -231,5 +231,72 @@ let dibujarCuadriculado = () => {
         i += paso;
         numY++;
     }
+}
+
+function dibujarImagen(posX, posY) {
+    const canvas = document.getElementById("myCanvas")
+    const ctx = canvas.getContext("2d")
+
+    canvas.width = canvas.width
+    const img = new Image()
+    img.src = "images/auto.png"
+    if (posX < 0 || posY < 0 || posX > canvas.width || posY > canvas.height) {
+        mostrarDialog()
+    } else {
+        img.onload = function () {
+            ctx.drawImage(img, posX, posY)
+        }
+    }
+}
+
+function mostrarDialog() {
+   const dial = document.getElementById("myDialog")
+   dial.showModal()
+}
+
+function cerrarDialog() {
+    const dial = document.getElementById("myDialog")
+    dial.close()
+}
+
+var id
+x = 0
+dx = 2
+
+function animarAuto() {
+    const canvas = document.getElementById("myCanvas")
+    const ctx = canvas.getContext("2d")
+
+    const img = new Image()
+    img.src = "images/auto.png"
+    img.onload = function () {
+        canvas.width = canvas.width
+        ctx.drawImage(img, x, 100)
+        id = requestAnimationFrame(animarAuto)
+    }
+
+    if (x > canvas.width) {
+        x = 0
+    }
+    x += dx
+}
+
+
+function detenerAuto() {
+    clearInterval(id)
+}
+
+function comenzarAnimacion() {
+    id = setInterval(animarAuto, 10)
+    setTimeout(detenerAuto, 6000)
+}
+
+function animarNuevo() {
+    setTimeout(cancelarAnimacion, 6000)
+    requestAnimationFrame(animarAuto)
+}
+
+function cancelarAnimacion() {
+    cancelAnimationFrame(id)
 }
 
